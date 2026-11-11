@@ -1,0 +1,41 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django generated files
+staticfiles/
+*.log
+
+# Local databases
+*.sqlite3
+*.db
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test and coverage files
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Database SSL certificate
+ca.pem
+
+fabric_care_data.json
+
+# Local media files (stored in Cloudinary)
+media/

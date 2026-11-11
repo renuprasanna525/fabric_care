@@ -1,0 +1,804 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iron Me Ka | Fabric Care Service</title>
+    <meta name="description" content="Iron Me Ka - Professional fabric care and laundry services.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Mulish:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    {% if navbar and navbar.is_active %}
+    <header class="main-navbar">
+        <nav class="navbar-container">
+
+            <a href="#home" class="navbar-logo">
+                {% if navbar.logo %}
+                <img src="{{ navbar.logo.url }}" alt="{{ navbar.logo_alt_text }}">
+                {% endif %}
+            </a>
+
+            <button class="navbar-toggle" id="navbarToggle" type="button" aria-label="Toggle navigation"
+                aria-expanded="false" aria-controls="navbarLinks">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <ul class="navbar-links" id="navbarLinks">
+
+                {% for item in navigation_items %}
+                {% if item.is_active %}
+                <li>
+                    <a href="{{ item.link }}">{{ item.label }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                <li class="mobile-book-button">
+                    <a href="{{ navbar.button_link }}" class="navbar-cta">
+                        {{ navbar.button_text }}
+                    </a>
+                </li>
+
+            </ul>
+
+            <a href="{{ navbar.button_link }}" class="navbar-cta">
+                {{ navbar.button_text }}
+            </a>
+
+        </nav>
+    </header>
+    {% endif %}
+
+
+    <!-- MAIN CONTENT -->
+
+    <main>
+
+
+        <!-- HERO CAROUSEL -->
+
+        <section id="home" class="hero-section">
+
+            {% if hero_slides %}
+
+            <div id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel"
+                data-bs-interval="6000" data-bs-pause="false" data-bs-wrap="true">
+
+                <!-- Hero Slides -->
+
+                <div class="carousel-inner">
+
+                    {% for slide in hero_slides %}
+
+                    {% if forloop.first %}
+                    <div class="carousel-item active">
+                        {% else %}
+                        <div class="carousel-item">
+                            {% endif %}
+
+                            {% if slide.background_image %}
+                            <img src="{{ slide.background_image.url }}" class="hero-background-image"
+                                alt="{{ slide.image_alt_text }}">
+                            {% endif %}
+
+                            <div class="hero-overlay"></div>
+
+                            <div class="hero-content">
+
+                                {% if slide.badge_text %}
+                                <span class="hero-badge">
+                                    {{ slide.badge_text }}
+                                </span>
+                                {% endif %}
+
+                                <h1 class="hero-heading">
+                                    {{ slide.heading }}
+                                </h1>
+
+                                <p class="hero-description">
+                                    {{ slide.description }}
+                                </p>
+
+                                <div class="hero-buttons">
+
+                                    <a href="{{ slide.primary_button_link }}" class="hero-btn hero-btn-primary">
+                                        {{ slide.primary_button_text }}
+                                    </a>
+
+                                    <a href="{{ slide.secondary_button_link }}" class="hero-btn hero-btn-secondary">
+                                        {{ slide.secondary_button_text }}
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- Carousel Controls -->
+
+                    {% if hero_slides|length > 1 %}
+
+                    <button class="carousel-control-prev hero-control" type="button" data-bs-target="#heroCarousel"
+                        data-bs-slide="prev" aria-label="Previous slide">
+
+                        <span class="hero-arrow">
+                            <i class="bi bi-chevron-left"></i>
+                        </span>
+
+                    </button>
+
+                    <button class="carousel-control-next hero-control" type="button" data-bs-target="#heroCarousel"
+                        data-bs-slide="next" aria-label="Next slide">
+
+                        <span class="hero-arrow">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+
+                    </button>
+
+                    <!-- Indicators -->
+
+                    <div class="carousel-indicators hero-indicators">
+
+                        {% for slide in hero_slides %}
+
+                        {% if forloop.first %}
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                            class="active" aria-current="true" aria-label="Slide {{ forloop.counter }}">
+                        </button>
+                        {% else %}
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                            aria-label="Slide {{ forloop.counter }}">
+                        </button>
+                        {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                {% else %}
+
+                <div class="hero-empty">
+                    <h2>Welcome to Iron Me Ka</h2>
+                    <p>Please add hero slides through Django Admin.</p>
+                </div>
+
+                {% endif %}
+
+        </section>
+
+
+        <!-- ABOUT US -->
+
+        {% if about_section %}
+
+        <section id="about" class="about-section">
+
+            <div class="container-fluid about-container">
+
+                <div class="row align-items-center about-row">
+
+                    <!-- LEFT IMAGE -->
+
+                    <div class="col-lg-6 about-image-column">
+
+                        <div class="about-image-wrapper">
+
+                            <img src="{{ about_section.image.url }}" alt="{{ about_section.image_alt_text }}"
+                                class="about-main-image">
+
+                            <!-- EXPERIENCE BADGE -->
+
+                            <div class="about-experience-badge">
+
+                                <strong>
+                                    {{ about_section.experience_number }}
+                                </strong>
+
+                                <span>
+                                    {{ about_section.experience_label }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RIGHT CONTENT -->
+
+                    <div class="col-lg-6 about-content-column">
+
+                        <!-- About Label -->
+
+                        <span class="about-label">
+                            {{ about_section.label }}
+                        </span>
+
+
+                        <!-- Heading -->
+
+                        <h2 class="about-heading">
+                            {{ about_section.heading }}
+                        </h2>
+
+
+                        <!-- Description One -->
+
+                        <p class="about-description">
+                            {{ about_section.description_one }}
+                        </p>
+
+
+                        <!-- Description Two -->
+
+                        <p class="about-description">
+                            {{ about_section.description_two }}
+                        </p>
+
+
+                        <!-- FEATURE CARDS -->
+
+                        {% if about_section.active_features %}
+
+                        <div class="about-features">
+
+                            {% for feature in about_section.active_features %}
+
+                            <div class="about-feature-card">
+
+                                <i class="bi {{ feature.icon_class }} about-feature-icon" aria-hidden="true"></i>
+
+                                <h3 class="about-feature-title">
+                                    {{ feature.title }}
+                                </h3>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+
+        <!-- SERVICES SECTION -->
+
+        {% if service_section %}
+
+        <section id="services" class="services-section">
+
+            <div class="container services-container">
+
+                <!-- SECTION HEADING -->
+
+                <div class="services-header">
+
+                    <span class="services-label">
+                        {{ service_section.label }}
+                    </span>
+
+                    <h2 class="services-heading">
+                        {{ service_section.heading }}
+                    </h2>
+
+                    <!-- GOLD DECORATIVE DIVIDER -->
+
+                    <div class="services-divider">
+                        <span></span>
+                        <i class="bi bi-diamond-fill"></i>
+                        <span></span>
+                    </div>
+
+                    <p class="services-description">
+                        {{ service_section.description }}
+                    </p>
+
+                </div>
+
+
+                <!-- SERVICE CARDS -->
+
+                {% if service_section.active_service_cards %}
+
+                <div class="services-grid">
+
+                    {% for service in service_section.active_service_cards %}
+
+                    <article class="service-card">
+
+                        <!-- SERVICE IMAGE -->
+
+                        <div class="service-image-wrapper">
+
+                            <img src="{{ service.image.url }}" alt="{{ service.image_alt_text }}" class="service-image"
+                                loading="lazy">
+
+                            <!-- AUTOMATIC NUMBER BADGE -->
+
+                            <span class="service-number">
+                                {{ service.display_order|stringformat:"02d" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- SERVICE DETAILS -->
+
+                        <div class="service-card-content">
+
+                            <h3 class="service-title">
+                                {{ service.title }}
+                            </h3>
+
+                            <p class="service-description">
+                                {{ service.description }}
+                            </p>
+
+
+                            <!-- PRICE AND BOOKING -->
+
+                            <div class="service-card-footer">
+
+                                <div class="service-price">
+
+                                    <span class="service-from">
+                                        FROM
+                                    </span>
+
+                                    <strong>
+                                        {{ service.price }}
+                                    </strong>
+
+                                </div>
+
+                                <a href="{{ service.button_link }}" class="service-book-btn">
+                                    {{ service.button_text }}
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="services-empty">
+                    <p>Services will be available soon.</p>
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+        <!-- WHY CHOOSE US SECTION -->
+        {% if why_choose_us %}
+        <section class="why-choose-us-section" id="why-choose-us">
+
+            <div class="container">
+
+                <div class="why-choose-us-header text-center">
+
+                    <span class="why-choose-us-label">
+                        {{ why_choose_us.label }}
+                    </span>
+
+                    <h2 class="why-choose-us-heading">
+                        {{ why_choose_us.heading }}
+                    </h2>
+
+                    <div class="services-divider">
+                        <span></span>
+                        <i class="bi bi-diamond-fill"></i>
+                        <span></span>
+                    </div>
+
+                </div>
+
+                <div class="row g-4 why-choose-us-row">
+
+                    {% for item in why_choose_us.active_items %}
+
+                    <div class="col-lg-3 col-md-3 col-12">
+
+                        <div class="why-choose-us-card">
+
+                            <div class="why-choose-us-icon">
+                                <i class="bi {{ item.icon_class }}"></i>
+                            </div>
+
+                            <h4>{{ item.title }}</h4>
+
+                            <p>{{ item.description }}</p>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+
+        </section>
+        {% endif %}
+
+
+        <!-- HOW IT WORKS SECTION -->
+        {% if how_it_works %}
+        <section class="how-it-works-section" id="how-it-works">
+
+            <div class="container">
+
+                <!-- SECTION HEADER -->
+                <div class="how-it-works-header text-center">
+
+                    <span class="how-it-works-label">
+                        {{ how_it_works.label }}
+                    </span>
+
+                    <h2 class="how-it-works-heading">
+                        {{ how_it_works.heading }}
+                    </h2>
+
+                    <div class="services-divider">
+                        <span></span>
+                        <i class="bi bi-diamond-fill"></i>
+                        <span></span>
+                    </div>
+
+                </div>
+
+                <!-- FOUR CONNECTED STEPS -->
+                <div class="how-it-works-track">
+
+                    {% for step in how_it_works.active_steps %}
+
+                    <div class="how-it-works-step">
+
+                        <div class="how-it-works-icon">
+                            <i class="bi {{ step.icon_class }}"></i>
+                        </div>
+
+                        <span class="how-it-works-number">
+                            {{ step.display_order|stringformat:"02d" }}
+                        </span>
+
+                        <h4>{{ step.title }}</h4>
+
+                        <p>{{ step.description }}</p>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </section>
+        {% endif %}
+
+        {% if testimonials %}
+        <section class="testimonials-section" id="testimonials">
+            <div class="container">
+
+                <!-- Section Heading -->
+                <div class="testimonials-header text-center">
+                    <span class="testimonials-label">
+                        {{ testimonials.label }}
+                    </span>
+
+                    <h2 class="testimonials-heading">
+                        {{ testimonials.heading }}
+                    </h2>
+
+                    <div class="services-divider">
+                        <span></span>
+                        <i class="bi bi-diamond-fill"></i>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Testimonial Cards -->
+                <div class="testimonials-track">
+
+                    {% for testimonial in testimonials.active_testimonials %}
+                    <div class="testimonial-card">
+
+                        <!-- Five Stars -->
+                        <div class="testimonial-stars">
+                            {% for star in "12345" %}
+                            <i class="bi bi-star-fill"></i>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Review -->
+                        <p class="testimonial-description">
+                            “{{ testimonial.description }}”
+                        </p>
+
+                        <!-- Customer Details -->
+                        <div class="testimonial-customer">
+
+                            <div class="testimonial-initial">
+                                {{ testimonial.name|slice:":1"|upper }}
+                            </div>
+
+                            <div class="testimonial-customer-info">
+                                <h5>{{ testimonial.name }}</h5>
+
+                                {% if testimonial.is_verified %}
+                                <span class="verified-customer">
+                                    Verified Customer
+                                </span>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if book_today %}
+        <section class="book-today-section" id="book-today">
+            <div class="container">
+
+                <div class="book-today-wrapper">
+
+                    <!-- LEFT PANEL -->
+                    <div class="book-today-content">
+
+                        <span class="book-today-label">
+                            {{ book_today.label }}
+                        </span>
+
+                        <h2 class="book-today-heading">
+                            {{ book_today.heading }}
+                        </h2>
+
+                        <p class="book-today-description">
+                            {{ book_today.description }}
+                        </p>
+
+                        <div class="book-today-buttons">
+
+                            <a href="{{ book_today.primary_button_url }}" class="book-today-primary-btn">
+                                {{ book_today.primary_button_text }}
+                            </a>
+
+                            <a href="{{ book_today.whatsapp_url }}" class="book-today-whatsapp-btn" target="_blank"
+                                rel="noopener noreferrer">
+                                <i class="bi bi-chat"></i>
+                                {{ book_today.secondary_button_text }}
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- RIGHT PANEL -->
+                    <div class="book-today-contact">
+
+                        {% for contact in book_today.active_contact_items %}
+                        <div class="book-today-contact-item">
+
+                            <div class="book-today-contact-icon">
+                                <i class="bi {{ contact.icon_class }}"></i>
+                            </div>
+
+                            <div class="book-today-contact-info">
+
+                                <span class="book-today-contact-label">
+                                    {{ contact.label }}
+                                </span>
+
+                                <p class="book-today-contact-value">
+                                    {{ contact.value|linebreaksbr }}
+                                </p>
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        {% endif %}
+
+    </main>
+
+    {% if footer %}
+    <footer class="website-footer">
+
+        <div class="container">
+
+            <!-- FOUR FOOTER COLUMNS -->
+            <div class="footer-main">
+
+                <!-- COLUMN 1: LOGO AND DESCRIPTION -->
+                <div class="footer-brand">
+
+                    {% if footer.logo %}
+                    <a href="#home" class="footer-logo">
+                        <img src="{{ footer.logo.url }}" alt="Vastra Care Logo">
+                    </a>
+                    {% endif %}
+
+                    <p class="footer-description">
+                        {{ footer.description }}
+                    </p>
+
+                    <!-- SOCIAL MEDIA -->
+                    <div class="footer-social-links">
+
+                        {% for social in footer.active_social_links %}
+                        <a href="{{ social.url }}" class="footer-social-icon" target="_blank" rel="noopener noreferrer"
+                            aria-label="{{ social.platform }}">
+
+                            <i class="bi {{ social.icon_class }}"></i>
+
+                        </a>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- COLUMN 2: QUICK LINKS -->
+                <div class="footer-column">
+
+                    <h4>{{ footer.quick_links_heading }}</h4>
+
+                    <ul class="footer-list">
+
+                        {% for link in footer.active_quick_links %}
+                        <li>
+                            <a href="{{ link.url }}">
+                                {{ link.title }}
+                            </a>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- COLUMN 3: SERVICES -->
+                <div class="footer-column">
+
+                    <h4>{{ footer.services_heading }}</h4>
+
+                    <ul class="footer-list">
+
+                        {% for service in footer.active_footer_services %}
+                        <li>
+                            {% if service.url %}
+                            <a href="{{ service.url }}">
+                                {{ service.title }}
+                            </a>
+                            {% else %}
+                            <span>{{ service.title }}</span>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- COLUMN 4: CONTACT -->
+                <div class="footer-column">
+
+                    <h4>{{ footer.contact_heading }}</h4>
+
+                    <ul class="footer-contact-list">
+
+                        {% for contact in footer.active_footer_contacts %}
+                        <li>
+
+                            <i class="bi {{ contact.icon_class }}"></i>
+
+                            <div>
+                                {% if contact.url %}
+                                <a href="{{ contact.url }}">
+                                    {{ contact.value|linebreaksbr }}
+                                </a>
+                                {% else %}
+                                <span>
+                                    {{ contact.value|linebreaksbr }}
+                                </span>
+                                {% endif %}
+                            </div>
+
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COPYRIGHT DIVIDER -->
+        <div class="footer-bottom">
+
+            <div class="container">
+                <p>{{ footer.copyright_text }}</p>
+            </div>
+
+        </div>
+
+    </footer>
+    {% endif %}
+
+</body>
+
+</html>
