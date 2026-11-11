@@ -20,17 +20,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Load environment variables
 load_dotenv(BASE_DIR / ".env")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-+-7z1b&0do8+0ioxm$zocwklib4h%7v*jlon4&gs$ngem&@330",
-)
+# ============================================================
+# SECURITY SETTINGS
+# ============================================================
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
+if not SECRET_KEY:
+    raise RuntimeError("DJANGO_SECRET_KEY must be configured in the environment.")
 
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()
@@ -44,9 +44,13 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-# Application definition
+
+# ============================================================
+# APPLICATION DEFINITION
+# ============================================================
 
 INSTALLED_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -61,6 +65,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -89,18 +94,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+# ============================================================
+# DATABASE CONFIGURATION
+# Local MySQL by default; Aiven through production env variables
+# ============================================================
 
-# MySQL configuration: local MySQL by default, Aiven when
-# production environment variables are supplied.
 DATABASE_OPTIONS = {
     "charset": "utf8mb4",
 }
 
 DB_SSL_CA = os.getenv("DB_SSL_CA")
+
 if DB_SSL_CA:
-    DATABASE_OPTIONS["ssl"] = {"ca": DB_SSL_CA}
+    DATABASE_OPTIONS["ssl"] = {
+        "ca": DB_SSL_CA,
+    }
 
 DATABASES = {
     "default": {
@@ -114,8 +122,10 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
+
+# ============================================================
+# PASSWORD VALIDATION
+# ============================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -133,23 +143,47 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/6.1/topics/i18n/
+# ============================================================
+# INTERNATIONALIZATION
+# ============================================================
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
+
+LANGUAGES = [
+    ("en", "English"),
+    ("ta", "Tamil"),
+    ("fr", "French"),
+]
+
 TIME_ZONE = "Asia/Kolkata"
+
 USE_I18N = True
 USE_TZ = True
 
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.1/howto/static-files/
+MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
+MODELTRANSLATION_LANGUAGES = ("en", "ta", "fr")
+
+
+# ============================================================
+# STATIC FILES
+# ============================================================
 
 STATIC_URL = "/static/"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+# ============================================================
+# CLOUDINARY MEDIA STORAGE
+# ============================================================
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -171,15 +205,41 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
+# ============================================================
+# EMAIL CONFIGURATION
+# Local: Console backend
+# Production: Disabled until email functionality is implemented
+# ============================================================
 
-MAILERS = {
-    "default": {
-        "BACKEND": "django.core.mail.backends.console.EmailBackend",
-    },
-}
+if DEBUG:
+    MAILERS = {
+        "default": {
+            "BACKEND": "django.core.mail.backends.console.EmailBackend",
+        },
+    }
+else:
+    MAILERS = {}
 
 
-# Render HTTPS proxy configuration
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# ============================================================
+# RENDER HTTPS PROXY CONFIGURATION
+# ============================================================
+
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
+
+
+# ============================================================
+# PRODUCTION SECURITY
+# ============================================================
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+
+    # Conservative initial HSTS duration: one hour.
+    SECURE_HSTS_SECONDS = 3600
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True

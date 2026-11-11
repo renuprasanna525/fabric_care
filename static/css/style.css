@@ -1,4 +1,4 @@
-/* =========================
+﻿/* =========================
    NAVBAR
 ========================= */
 
@@ -2189,6 +2189,24 @@ body {
     }
 }
 
+.book-today-contact-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.book-today-contact-link:hover {
+    color: inherit;
+}
+
+.book-today-contact-link .book-today-contact-icon {
+    transition: transform 0.3s ease;
+}
+
+.book-today-contact-link:hover .book-today-contact-icon {
+    transform: scale(1.1);
+}
+
 /* =========================================
    VASTRA CARE - WEBSITE FOOTER
 ========================================= */
@@ -2436,5 +2454,539 @@ body {
 
     .footer-bottom p {
         font-size: 12px;
+    }
+}
+
+
+/* =====================================
+   FLOATING CONTACT BUTTONS
+===================================== */
+
+.floating-contact-buttons {
+    position: fixed;
+    right: 25px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 9999;
+}
+
+.floating-contact-btn {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 21px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+    transition: all 0.3s ease;
+}
+
+/* PHONE */
+.phone-btn {
+    background: #741F3F;
+}
+
+/* WHATSAPP */
+.whatsapp-btn {
+    background: #25D366;
+    color: #ffffff;
+}
+
+/* EMAIL */
+.email-btn {
+    background: #CAA55E;
+    color: #ffffff;
+    border: 1px solid #CAA55E;
+}
+
+/* HOVER EFFECT */
+.floating-contact-btn:hover {
+    transform: translateY(-5px) scale(1.07);
+    color: #ffffff;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 576px) {
+
+    .floating-contact-buttons {
+        right: 15px;
+        bottom: 20px;
+        gap: 11px;
+    }
+
+    .floating-contact-btn {
+        width: 46px;
+        height: 46px;
+        font-size: 19px;
+    }
+
+}
+
+
+/* LANGUAGE SELECTOR */
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.language-form {
+    margin: 0;
+}
+
+.language-select {
+    min-width: 112px;
+    padding: 10px 28px 10px 12px;
+    border: 1px solid #CAA55E;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #262221;
+    font-family: 'Mulish', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
+
+.language-select:focus {
+    border-color: #CAA55E;
+    box-shadow: 0 0 0 2px rgba(202, 165, 94, 0.2);
+}
+
+.language-select option {
+    background-color: #fff;
+    color: #262221;
+}
+
+/* TABLET AND MOBILE */
+
+@media (max-width: 991px) {
+
+    .navbar-container {
+        gap: 10px;
+    }
+
+    .navbar-toggle {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    .navbar-actions {
+        gap: 0;
+    }
+
+    /* Hide desktop booking button.
+       Mobile booking button inside the menu remains visible. */
+    .navbar-actions .navbar-cta {
+        display: none;
+    }
+
+    .language-select {
+        min-width: 95px;
+        padding: 8px 22px 8px 9px;
+        font-size: 12px;
+    }
+}
+
+/* SMALL SCREENS */
+
+@media (max-width: 576px) {
+
+    .navbar-actions {
+        flex-shrink: 0;
+    }
+
+    .language-select {
+        min-width: 88px;
+        padding: 7px 20px 7px 8px;
+        font-size: 11px;
+    }
+}
+
+/* LANGUAGE SELECTOR AND TAMIL TYPOGRAPHY ENHANCEMENTS */
+
+.language-form {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    animation: languageControlEnter 0.55s ease both;
+}
+
+.language-icon {
+    position: absolute;
+    left: 13px;
+    z-index: 2;
+    color: var(--secondary-gold);
+    font-size: 16px;
+    pointer-events: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.language-select {
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 132px;
+    padding: 11px 34px 11px 38px;
+    border: 1px solid var(--secondary-gold);
+    border-radius: 9px;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m2 4 4 4 4-4' fill='none' stroke='%23741F3F' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    color: var(--dark-text);
+    font-family: 'Mulish', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 3px 10px rgba(38, 34, 33, 0.06);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease,
+                transform 0.25s ease, background-color 0.25s ease;
+}
+
+.language-form:hover .language-icon {
+    color: var(--primary-burgundy);
+    transform: rotate(-12deg) scale(1.12);
+}
+
+.language-select:hover {
+    border-color: var(--primary-burgundy);
+    box-shadow: 0 5px 15px rgba(116, 31, 63, 0.12);
+    transform: translateY(-1px);
+}
+
+.language-select:focus-visible {
+    border-color: var(--primary-burgundy);
+    box-shadow: 0 0 0 3px rgba(202, 165, 94, 0.25);
+}
+
+.language-select option {
+    padding: 10px;
+    background: #fff;
+    color: var(--dark-text);
+    font-family: 'Mulish', 'Noto Sans Tamil', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@keyframes languageControlEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tamil font family and consistent body typography */
+
+html[lang="ta"] body {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+    font-size: 15px;
+}
+
+html[lang="ta"] body :is(
+    h1, h2, h3, h4, h5, p, a, button, li,
+    span, label, input, select, textarea, small
+) {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+/* Main section headings */
+
+html[lang="ta"] .hero-heading {
+    font-size: clamp(32px, 5.2vw, 62px) !important;
+    line-height: 1.35 !important;
+}
+
+html[lang="ta"] :is(
+    .about-heading,
+    .services-heading,
+    .why-choose-us-heading,
+    .how-it-works-heading,
+    .testimonials-heading,
+    .book-today-heading
+) {
+    font-size: clamp(27px, 3.5vw, 39px) !important;
+    line-height: 1.45 !important;
+}
+
+/* Section labels and descriptions */
+
+html[lang="ta"] :is(
+    .hero-description,
+    .about-description,
+    .services-description,
+    .why-choose-us-card p,
+    .how-it-works-card p,
+    .testimonial-description,
+    .book-today-description,
+    .footer-description
+) {
+    font-size: 14px !important;
+    line-height: 1.9 !important;
+}
+
+html[lang="ta"] :is(
+    .hero-badge,
+    .about-label,
+    .services-label,
+    .why-choose-us-label,
+    .how-it-works-label,
+    .testimonials-label,
+    .book-today-label
+) {
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+    letter-spacing: 0 !important;
+}
+
+/* Cards, feature titles and service text */
+
+html[lang="ta"] :is(
+    .service-title,
+    .why-choose-us-card h4,
+    .about-feature-title,
+    .how-it-works-step h4,
+    .testimonial-name
+) {
+    font-size: 17px !important;
+    line-height: 1.65 !important;
+}
+
+html[lang="ta"] :is(
+    .service-card-content .service-description,
+    .service-card-content p,
+    .about-feature p,
+    .footer-column p,
+    .footer-column a,
+    .footer-contact-list li
+) {
+    font-size: 13px !important;
+    line-height: 1.85 !important;
+}
+
+/* Buttons and navigation */
+
+html[lang="ta"] :is(
+    .navbar-cta,
+    .hero-btn,
+    .service-card .btn,
+    .book-today-btn,
+    .book-today-whatsapp-btn
+) {
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+    letter-spacing: 0 !important;
+}
+
+/* Tamil navbar selector */
+
+html[lang="ta"] .language-select {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+    font-size: 12px;
+}
+
+/* Tamil footer headings */
+
+html[lang="ta"] .footer-column h4 {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+/* Smaller screens */
+
+@media (max-width: 991px) {
+    .language-select {
+        min-width: 112px;
+        padding: 9px 30px 9px 35px;
+    }
+
+    .language-icon {
+        left: 11px;
+    }
+
+    html[lang="ta"] .hero-heading {
+        font-size: clamp(29px, 6vw, 46px) !important;
+    }
+
+    html[lang="ta"] :is(
+        .about-heading,
+        .services-heading,
+        .why-choose-us-heading,
+        .how-it-works-heading,
+        .testimonials-heading,
+        .book-today-heading
+    ) {
+        font-size: clamp(25px, 4.5vw, 34px) !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .language-select {
+        min-width: 105px;
+        padding: 8px 27px 8px 32px;
+        font-size: 11px;
+    }
+
+    .language-icon {
+        left: 10px;
+        font-size: 14px;
+    }
+
+    html[lang="ta"] .hero-heading {
+        font-size: 29px !important;
+        line-height: 1.4 !important;
+    }
+
+    html[lang="ta"] :is(
+        .about-heading,
+        .services-heading,
+        .why-choose-us-heading,
+        .how-it-works-heading,
+        .testimonials-heading,
+        .book-today-heading
+    ) {
+        font-size: 25px !important;
+        line-height: 1.5 !important;
+    }
+
+    html[lang="ta"] :is(
+        .hero-description,
+        .about-description,
+        .services-description,
+        .book-today-description
+    ) {
+        font-size: 13px !important;
+        line-height: 1.9 !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .language-form,
+    .language-select,
+    .language-icon {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Corrected selectors for the actual homepage template */
+
+html[lang="ta"] .how-it-works-step p,
+html[lang="ta"] .why-choose-us-card p,
+html[lang="ta"] .testimonial-description,
+html[lang="ta"] .book-today-description,
+html[lang="ta"] .footer-description {
+    font-size: 13px !important;
+    line-height: 1.9 !important;
+}
+
+html[lang="ta"] :is(
+    .why-choose-us-card h4,
+    .how-it-works-step h4,
+    .testimonial-customer-info h5,
+    .book-today-contact-label,
+    .book-today-contact-value
+) {
+    font-size: 14px !important;
+    line-height: 1.75 !important;
+}
+
+html[lang="ta"] :is(
+    .book-today-primary-btn,
+    .book-today-whatsapp-btn
+) {
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0 !important;
+}
+
+html[lang="ta"] .verified-customer {
+    font-size: 11px !important;
+    line-height: 1.7 !important;
+}
+
+html[lang="ta"] .footer-column h4 {
+    font-size: 16px !important;
+    line-height: 1.7 !important;
+}
+
+/* FINAL LANGUAGE DROPDOWN AND SERVICE BOOK BUTTON STYLES */
+
+/* Language dropdown option list */
+.language-select {
+    accent-color: var(--primary-burgundy);
+}
+
+.language-select option {
+    background-color: #FFFFFF;
+    color: #741F3F;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 14px;
+}
+
+.language-select option:checked {
+    background-color: #F9F3E9;
+    color: #741F3F;
+    font-weight: 700;
+}
+
+/* Tamil dropdown font */
+html[lang="ta"] .language-select,
+html[lang="ta"] .language-select option {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+    font-size: 11px;
+}
+
+/* French dropdown font */
+html[lang="fr"] .language-select,
+html[lang="fr"] .language-select option {
+    font-family: 'Mulish', sans-serif;
+    font-size: 12px;
+}
+
+/* Service Book Now buttons - Tamil */
+html[lang="ta"] .service-book-btn {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif !important;
+    font-size: 7px !important;
+    line-height: 1.7 !important;
+    padding: 9px 32px !important;
+    letter-spacing: 0 !important;
+    white-space: nowrap;
+    min-width: 135px !important;
+}
+
+/* Service Book Now buttons - French */
+html[lang="fr"] .service-book-btn {
+    font-family: 'Mulish', sans-serif !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    padding: 9px 13px !important;
+    letter-spacing: 0 !important;
+    white-space: nowrap;
+}
+
+/* Keep button readable on smaller screens */
+@media (max-width: 576px) {
+    html[lang="ta"] .service-book-btn {
+        font-size: 8px !important;
+        padding: 8px 10px !important;
+    }
+
+    html[lang="fr"] .service-book-btn {
+        font-size: 10px !important;
+        padding: 8px 10px !important;
     }
 }

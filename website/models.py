@@ -441,6 +441,11 @@ class BookTodayContact(models.Model):
     )
     label = models.CharField(max_length=100)
     value = models.TextField()
+    link_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Examples: tel:+919514242834, https://wa.me/919514242834, or Google Maps URL.",
+    )
     display_order = models.PositiveSmallIntegerField(default=1)
     is_active = models.BooleanField(default=True)
 

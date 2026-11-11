@@ -39,3 +39,6 @@ fabric_care_data.json
 
 # Local media files (stored in Cloudinary)
 media/
+
+# Local database backups
+*.sql

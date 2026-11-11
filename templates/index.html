@@ -1,13 +1,14 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ CURRENT_LANGUAGE }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Iron Me Ka | Fabric Care Service</title>
-    <meta name="description" content="Iron Me Ka - Professional fabric care and laundry services.">
+    <title>{% if CURRENT_LANGUAGE == "ta" %}Iron Me Ka | துணி பராமரிப்பு சேவை{% elif CURRENT_LANGUAGE == "fr" %}Iron Me Ka | Service d’entretien des tissus{% else %}Iron Me Ka | Fabric Care Service{% endif %}</title>
+    <meta name="description" content="{% if CURRENT_LANGUAGE == "ta" %}Iron Me Ka - தொழில்முறை துணி பராமரிப்பு மற்றும் சலவை சேவைகள்.{% elif CURRENT_LANGUAGE == "fr" %}Iron Me Ka - Services professionnels d’entretien des tissus et de blanchisserie.{% else %}Iron Me Ka - Professional fabric care and laundry services.{% endif %}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +22,7 @@
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -29,6 +31,7 @@
 <body>
 
     <!-- NAVBAR -->
+
 
     {% if navbar and navbar.is_active %}
     <header class="main-navbar">
@@ -40,7 +43,7 @@
                 {% endif %}
             </a>
 
-            <button class="navbar-toggle" id="navbarToggle" type="button" aria-label="Toggle navigation"
+            <button class="navbar-toggle" id="navbarToggle" type="button" aria-label="{% if CURRENT_LANGUAGE == "ta" %}வழிசெலுத்தலை மாற்றவும்{% elif CURRENT_LANGUAGE == "fr" %}Afficher ou masquer la navigation{% else %}Toggle navigation{% endif %}"
                 aria-expanded="false" aria-controls="navbarLinks">
                 <i class="bi bi-list"></i>
             </button>
@@ -63,14 +66,43 @@
 
             </ul>
 
-            <a href="{{ navbar.button_link }}" class="navbar-cta">
-                {{ navbar.button_text }}
-            </a>
+            <!-- LANGUAGE SELECTOR + DESKTOP BOOKING BUTTON -->
+            <div class="navbar-actions">
+                <a href="{{ navbar.button_link }}" class="navbar-cta">
+                    {{ navbar.button_text }}
+                </a>
+
+                <form action="{% url 'set_language' %}" method="post" class="language-form">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+
+                    <i class="bi bi-globe2 language-icon" aria-hidden="true"></i>
+                    <select name="language" class="language-select" aria-label="{% if CURRENT_LANGUAGE == "ta" %}இணையதள மொழியைத் தேர்ந்தெடுக்கவும்{% elif CURRENT_LANGUAGE == "fr" %}Sélectionner la langue du site{% else %}Select website language{% endif %}"
+                        onchange="this.form.submit()">
+
+                        <option value="en" {% if CURRENT_LANGUAGE == "en" %}selected{% endif %}>
+                            English
+                        </option>
+
+                        <option value="ta" {% if CURRENT_LANGUAGE == "ta" %}selected{% endif %}>
+                            தமிழ்
+                        </option>
+
+                        <option value="fr" {% if CURRENT_LANGUAGE == "fr" %}selected{% endif %}>
+                            Fran&#231;ais
+                        </option>
+
+                    </select>
+
+                </form>
+
+            </div>
 
         </nav>
     </header>
     {% endif %}
-
 
     <!-- MAIN CONTENT -->
 
@@ -146,7 +178,7 @@
                     {% if hero_slides|length > 1 %}
 
                     <button class="carousel-control-prev hero-control" type="button" data-bs-target="#heroCarousel"
-                        data-bs-slide="prev" aria-label="Previous slide">
+                        data-bs-slide="prev" aria-label="{% if CURRENT_LANGUAGE == "ta" %}முந்தைய ஸ்லைடு{% elif CURRENT_LANGUAGE == "fr" %}Diapositive précédente{% else %}Previous slide{% endif %}">
 
                         <span class="hero-arrow">
                             <i class="bi bi-chevron-left"></i>
@@ -155,7 +187,7 @@
                     </button>
 
                     <button class="carousel-control-next hero-control" type="button" data-bs-target="#heroCarousel"
-                        data-bs-slide="next" aria-label="Next slide">
+                        data-bs-slide="next" aria-label="{% if CURRENT_LANGUAGE == "ta" %}அடுத்த ஸ்லைடு{% elif CURRENT_LANGUAGE == "fr" %}Diapositive suivante{% else %}Next slide{% endif %}">
 
                         <span class="hero-arrow">
                             <i class="bi bi-chevron-right"></i>
@@ -171,11 +203,11 @@
 
                         {% if forloop.first %}
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                            class="active" aria-current="true" aria-label="Slide {{ forloop.counter }}">
+                            class="active" aria-current="true" aria-label="{% if CURRENT_LANGUAGE == "ta" %}ஸ்லைடு {{ forloop.counter }}{% elif CURRENT_LANGUAGE == "fr" %}Diapositive {{ forloop.counter }}{% else %}Slide {{ forloop.counter }}{% endif %}">
                         </button>
                         {% else %}
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                            aria-label="Slide {{ forloop.counter }}">
+                            aria-label="{% if CURRENT_LANGUAGE == "ta" %}ஸ்லைடு {{ forloop.counter }}{% elif CURRENT_LANGUAGE == "fr" %}Diapositive {{ forloop.counter }}{% else %}Slide {{ forloop.counter }}{% endif %}">
                         </button>
                         {% endif %}
 
@@ -190,8 +222,8 @@
                 {% else %}
 
                 <div class="hero-empty">
-                    <h2>Welcome to Iron Me Ka</h2>
-                    <p>Please add hero slides through Django Admin.</p>
+                    <h2>{% if CURRENT_LANGUAGE == "ta" %}Iron Me Ka-க்கு வரவேற்கிறோம்{% elif CURRENT_LANGUAGE == "fr" %}Bienvenue chez Iron Me Ka{% else %}Welcome to Iron Me Ka{% endif %}</h2>
+                    <p>{% if CURRENT_LANGUAGE == "ta" %}Django Admin மூலம் ஹீரோ ஸ்லைடுகளைச் சேர்க்கவும்.{% elif CURRENT_LANGUAGE == "fr" %}Veuillez ajouter des diapositives depuis Django Admin.{% else %}Please add hero slides through Django Admin.{% endif %}</p>
                 </div>
 
                 {% endif %}
@@ -385,7 +417,7 @@
                                 <div class="service-price">
 
                                     <span class="service-from">
-                                        FROM
+                                        {% if CURRENT_LANGUAGE == "ta" %}தொடங்கி{% elif CURRENT_LANGUAGE == "fr" %}À PARTIR DE{% else %}FROM{% endif %}
                                     </span>
 
                                     <strong>
@@ -411,7 +443,7 @@
                 {% else %}
 
                 <div class="services-empty">
-                    <p>Services will be available soon.</p>
+                    <p>{% if CURRENT_LANGUAGE == "ta" %}சேவைகள் விரைவில் கிடைக்கும்.{% elif CURRENT_LANGUAGE == "fr" %}Les services seront bientôt disponibles.{% else %}Services will be available soon.{% endif %}</p>
                 </div>
 
                 {% endif %}
@@ -568,7 +600,7 @@
 
                         <!-- Review -->
                         <p class="testimonial-description">
-                            “{{ testimonial.description }}”
+                            &ldquo;{{ testimonial.description }}&rdquo;
                         </p>
 
                         <!-- Customer Details -->
@@ -583,7 +615,7 @@
 
                                 {% if testimonial.is_verified %}
                                 <span class="verified-customer">
-                                    Verified Customer
+                                    {% if CURRENT_LANGUAGE == "ta" %}சரிபார்க்கப்பட்ட வாடிக்கையாளர்{% elif CURRENT_LANGUAGE == "fr" %}Client vérifié{% else %}Verified Customer{% endif %}
                                 </span>
                                 {% endif %}
                             </div>
@@ -621,14 +653,18 @@
 
                         <div class="book-today-buttons">
 
-                            <a href="{{ book_today.primary_button_url }}" class="book-today-primary-btn">
+                            <!-- BOOK A SERVICE - DIRECT CALL -->
+                            <a href="tel:+919514242834" class="book-today-primary-btn">
                                 {{ book_today.primary_button_text }}
                             </a>
 
-                            <a href="{{ book_today.whatsapp_url }}" class="book-today-whatsapp-btn" target="_blank"
-                                rel="noopener noreferrer">
-                                <i class="bi bi-chat"></i>
+                            <!-- WHATSAPP BUTTON -->
+                            <a href="https://wa.me/919514242834?text=Hello%20Iron%20Me%20Ka%2C%20I%20would%20like%20to%20book%20your%20fabric%20care%20service."
+                                class="book-today-whatsapp-btn" target="_blank" rel="noopener noreferrer">
+
+                                <i class="bi bi-whatsapp"></i>
                                 {{ book_today.secondary_button_text }}
+
                             </a>
 
                         </div>
@@ -638,14 +674,15 @@
                     <div class="book-today-contact">
 
                         {% for contact in book_today.active_contact_items %}
-                        <div class="book-today-contact-item">
+
+                        {% if contact.link_url %}
+                        <a href="{{ contact.link_url }}" class="book-today-contact-item book-today-contact-link">
 
                             <div class="book-today-contact-icon">
                                 <i class="bi {{ contact.icon_class }}"></i>
                             </div>
 
                             <div class="book-today-contact-info">
-
                                 <span class="book-today-contact-label">
                                     {{ contact.label }}
                                 </span>
@@ -653,16 +690,35 @@
                                 <p class="book-today-contact-value">
                                     {{ contact.value|linebreaksbr }}
                                 </p>
+                            </div>
 
+                        </a>
+
+                        {% else %}
+                        <div class="book-today-contact-item">
+
+                            <div class="book-today-contact-icon">
+                                <i class="bi {{ contact.icon_class }}"></i>
+                            </div>
+
+                            <div class="book-today-contact-info">
+                                <span class="book-today-contact-label">
+                                    {{ contact.label }}
+                                </span>
+
+                                <p class="book-today-contact-value">
+                                    {{ contact.value|linebreaksbr }}
+                                </p>
                             </div>
 
                         </div>
+                        {% endif %}
+
                         {% endfor %}
 
                     </div>
 
                 </div>
-
             </div>
         </section>
         {% endif %}
@@ -798,6 +854,30 @@
 
     </footer>
     {% endif %}
+
+    <!-- FLOATING CONTACT BUTTONS -->
+
+    <div class="floating-contact-buttons">
+
+        <!-- PHONE BUTTON -->
+        <a href="tel:+919514242834" class="floating-contact-btn phone-btn" aria-label="{% if CURRENT_LANGUAGE == "ta" %}எங்களை அழைக்கவும்{% elif CURRENT_LANGUAGE == "fr" %}Appelez-nous{% else %}Call us{% endif %}" title="{% if CURRENT_LANGUAGE == "ta" %}எங்களை அழைக்கவும்{% elif CURRENT_LANGUAGE == "fr" %}Appelez-nous{% else %}Call us{% endif %}">
+            <i class="bi bi-telephone-fill"></i>
+        </a>
+
+        <!-- WHATSAPP BUTTON -->
+        <a href="https://wa.me/919514242834" class="floating-contact-btn whatsapp-btn" target="_blank"
+            rel="noopener noreferrer" aria-label="{% if CURRENT_LANGUAGE == "ta" %}WhatsApp-ல் எங்களுடன் உரையாடுங்கள்{% elif CURRENT_LANGUAGE == "fr" %}Discutez avec nous sur WhatsApp{% else %}Chat with us on WhatsApp{% endif %}" title="{% if CURRENT_LANGUAGE == "ta" %}WhatsApp உரையாடல்{% elif CURRENT_LANGUAGE == "fr" %}Discussion WhatsApp{% else %}WhatsApp{% endif %}">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+
+        <!-- EMAIL BUTTON -->
+        <a href="mailto:renukaprasanna425@gmail.com" class="floating-contact-btn email-btn" aria-label="{% if CURRENT_LANGUAGE == "ta" %}மின்னஞ்சல் அனுப்புங்கள்{% elif CURRENT_LANGUAGE == "fr" %}Envoyez-nous un e-mail{% else %}Email us{% endif %}"
+            title="{% if CURRENT_LANGUAGE == "ta" %}மின்னஞ்சல் அனுப்புங்கள்{% elif CURRENT_LANGUAGE == "fr" %}Envoyez-nous un e-mail{% else %}Email us{% endif %}">
+            <i class="bi bi-envelope-fill"></i>
+        </a>
+
+    </div>
+
 
     <!-- Bootstrap JavaScript Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

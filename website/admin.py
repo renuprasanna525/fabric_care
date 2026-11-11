@@ -1,4 +1,6 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin, TranslationTabularInline
+
 from .models import (
     Navbar,
     NavigationItem,
@@ -22,8 +24,12 @@ from .models import (
     FooterSocialLink,
 )
 
+# =========================
+# NAVBAR ADMIN
+# =========================
 
-class NavigationItemInline(admin.TabularInline):
+
+class NavigationItemInline(TranslationTabularInline):
     model = NavigationItem
     extra = 1
     fields = (
@@ -36,7 +42,7 @@ class NavigationItemInline(admin.TabularInline):
 
 
 @admin.register(Navbar)
-class NavbarAdmin(admin.ModelAdmin):
+class NavbarAdmin(TranslationAdmin):
     list_display = (
         "id",
         "logo_alt_text",
@@ -75,8 +81,13 @@ class NavbarAdmin(admin.ModelAdmin):
     inlines = [NavigationItemInline]
 
 
+# =========================
+# HERO SLIDE ADMIN
+# =========================
+
+
 @admin.register(HeroSlide)
-class HeroSlideAdmin(admin.ModelAdmin):
+class HeroSlideAdmin(TranslationAdmin):
 
     list_display = (
         "display_order",
@@ -149,7 +160,7 @@ class HeroSlideAdmin(admin.ModelAdmin):
 # =========================
 
 
-class AboutFeatureInline(admin.TabularInline):
+class AboutFeatureInline(TranslationTabularInline):
 
     model = AboutFeature
     extra = 3
@@ -166,7 +177,7 @@ class AboutFeatureInline(admin.TabularInline):
 
 
 @admin.register(AboutSection)
-class AboutSectionAdmin(admin.ModelAdmin):
+class AboutSectionAdmin(TranslationAdmin):
 
     list_display = (
         "id",
@@ -222,7 +233,7 @@ class AboutSectionAdmin(admin.ModelAdmin):
 # =========================
 
 
-class ServiceCardInline(admin.TabularInline):
+class ServiceCardInline(TranslationTabularInline):
 
     model = ServiceCard
 
@@ -245,7 +256,7 @@ class ServiceCardInline(admin.TabularInline):
 
 
 @admin.register(ServiceSection)
-class ServiceSectionAdmin(admin.ModelAdmin):
+class ServiceSectionAdmin(TranslationAdmin):
 
     list_display = (
         "id",
@@ -281,7 +292,7 @@ class ServiceSectionAdmin(admin.ModelAdmin):
 # =========================
 
 
-class WhyChooseUsItemInline(admin.TabularInline):
+class WhyChooseUsItemInline(TranslationTabularInline):
 
     model = WhyChooseUsItem
     extra = 4
@@ -299,7 +310,7 @@ class WhyChooseUsItemInline(admin.TabularInline):
 
 
 @admin.register(WhyChooseUsSection)
-class WhyChooseUsSectionAdmin(admin.ModelAdmin):
+class WhyChooseUsSectionAdmin(TranslationAdmin):
 
     list_display = (
         "id",
@@ -334,7 +345,7 @@ class WhyChooseUsSectionAdmin(admin.ModelAdmin):
 # =========================
 
 
-class HowItWorksStepInline(admin.TabularInline):
+class HowItWorksStepInline(TranslationTabularInline):
 
     model = HowItWorksStep
 
@@ -353,7 +364,7 @@ class HowItWorksStepInline(admin.TabularInline):
 
 
 @admin.register(HowItWorksSection)
-class HowItWorksSectionAdmin(admin.ModelAdmin):
+class HowItWorksSectionAdmin(TranslationAdmin):
 
     list_display = (
         "id",
@@ -383,7 +394,12 @@ class HowItWorksSectionAdmin(admin.ModelAdmin):
     inlines = [HowItWorksStepInline]
 
 
-class TestimonialInline(admin.TabularInline):
+# =========================
+# TESTIMONIAL ADMIN
+# =========================
+
+
+class TestimonialInline(TranslationTabularInline):
     model = Testimonial
     extra = 4
     max_num = 4
@@ -398,13 +414,18 @@ class TestimonialInline(admin.TabularInline):
 
 
 @admin.register(TestimonialSection)
-class TestimonialSectionAdmin(admin.ModelAdmin):
+class TestimonialSectionAdmin(TranslationAdmin):
     list_display = ("id", "label", "heading", "is_active")
     list_editable = ("is_active",)
     inlines = [TestimonialInline]
 
 
-class BookTodayContactInline(admin.TabularInline):
+# =========================
+# BOOK TODAY ADMIN
+# =========================
+
+
+class BookTodayContactInline(TranslationTabularInline):
     model = BookTodayContact
     extra = 4
     max_num = 4
@@ -412,6 +433,7 @@ class BookTodayContactInline(admin.TabularInline):
         "icon_class",
         "label",
         "value",
+        "link_url",
         "display_order",
         "is_active",
     )
@@ -419,7 +441,7 @@ class BookTodayContactInline(admin.TabularInline):
 
 
 @admin.register(BookTodaySection)
-class BookTodaySectionAdmin(admin.ModelAdmin):
+class BookTodaySectionAdmin(TranslationAdmin):
     list_display = ("id", "label", "heading", "is_active")
     list_editable = ("is_active",)
     fields = (
@@ -435,14 +457,19 @@ class BookTodaySectionAdmin(admin.ModelAdmin):
     inlines = [BookTodayContactInline]
 
 
-class FooterQuickLinkInline(admin.TabularInline):
+# =========================
+# FOOTER ADMIN
+# =========================
+
+
+class FooterQuickLinkInline(TranslationTabularInline):
     model = FooterQuickLink
     extra = 1
     fields = ("title", "url", "display_order", "is_active")
     ordering = ("display_order",)
 
 
-class FooterServiceInline(admin.TabularInline):
+class FooterServiceInline(TranslationTabularInline):
     model = FooterService
     extra = 1
     fields = ("title", "url", "display_order", "is_active")
@@ -476,7 +503,7 @@ class FooterSocialLinkInline(admin.TabularInline):
 
 
 @admin.register(FooterSection)
-class FooterSectionAdmin(admin.ModelAdmin):
+class FooterSectionAdmin(TranslationAdmin):
     list_display = ("id", "quick_links_heading", "is_active")
     list_editable = ("is_active",)
 
